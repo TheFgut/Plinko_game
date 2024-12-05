@@ -9,11 +9,6 @@ public class PlinkoBall : MonoBehaviour
 {
     private new RectTransform transform;
 
-    [Inject]
-    private void Construct()
-    {
-
-    }
 
     public void Init()
     {
