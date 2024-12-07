@@ -12,6 +12,7 @@ public class BallsPool
     private Stack<PlinkoBall> pooledBallsStack;
     private RectTransform ballsTransformParent;
 
+    public bool allBallsAreInPool => pooledBallsStack.Count == ballsPoolSize;
     public bool hasFreeBall => pooledBallsStack.TryPeek(out var freeBall);
     public void Init(RectTransform ballsTransformParent)
     {
@@ -21,6 +22,7 @@ public class BallsPool
         {
             PlinkoBall ball = Object.Instantiate(ballPrefab, ballsTransformParent);
             ball.Init();
+            ball.Deactivate();
             pooledBallsStack.Push(ball);
         }
     }

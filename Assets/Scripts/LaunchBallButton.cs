@@ -7,23 +7,27 @@ public class LaunchBallButton : MonoBehaviour
 {
     [SerializeField] private Button button;
     private PlinkoGame plinkoGame;
+    private BettingSystem bettingSys;
     private bool active;
     [Inject]
-    private void Construct(PlinkoGame plinkoGame)
+    private void Construct(PlinkoGame plinkoGame, BettingSystem bettingSys)
     {
         this.plinkoGame = plinkoGame;
+        this.bettingSys = bettingSys;
     }
 
     public void Start()
     {
-        button.onClick.AddListener(LaunchBall);
+        button.onClick.AddListener(LaunchBallWithCurrentBetAmountSettings);
         plinkoGame.onBallLaunchAvailabilityChanged += BallLaunchAvailabilityChanged;
     }
 
-    public void LaunchBall()
+    public void LaunchBallWithCurrentBetAmountSettings()
     {
-        plinkoGame.tryLaunchBall();
+        LaunchBall(bettingSys.GetBetAmount());
     }
+
+    public void LaunchBall(float bet) => plinkoGame.tryLaunchBall(bet);
 
     private void BallLaunchAvailabilityChanged(bool awailableToLaunch)
     {

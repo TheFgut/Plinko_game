@@ -9,6 +9,7 @@ public class MainSystemsInstaller : MonoInstaller
     [SerializeField] private GameServerApi gameServerApi;
     [SerializeField] private PlinkoGame game;
     [SerializeField] private UnityMainThreadActionLauncher mainThreadLauncher;
+    [SerializeField] private BettingSystem bettingSys;
 
     public override void InstallBindings()
     {
@@ -16,5 +17,6 @@ public class MainSystemsInstaller : MonoInstaller
         Container.BindInstance(gameServerApi);
         Container.BindInstance(game);
         Container.BindInstance(mainThreadLauncher);
+        Container.BindInstance(bettingSys);
     }
 }

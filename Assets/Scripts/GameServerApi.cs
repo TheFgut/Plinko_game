@@ -17,7 +17,7 @@ public class GameServerApi : MonoBehaviour
         List<int> plinkoPath = new List<int>();
 
         int dotNum = 1;
-        for (int i = pinsCount - 2; i >= 0; i--)
+        for (int i = 0; i < pinsCount - 2; i++)
         {
             plinkoPath.Add(dotNum);
             PlinkoBallMove ballMove = RandomCalculations.plinkoMoveCalculation(random);
@@ -28,9 +28,26 @@ public class GameServerApi : MonoBehaviour
     }
 
     //imitates request send to server
-    public async Task<float> getBallRunRevenueFromServer(int pinsCount, int reachedPinId)
+    public async Task<float> getBallRunRevenueFromServer(int pinsCount, int reachedPinId, float betAmount)
     {
         await Task.Delay(150);
-        return (float)System.Math.Round(Mathf.Abs(reachedPinId - (pinsCount/2f)),1) + 0.5f;
+        return CalcCoef(pinsCount, reachedPinId) * betAmount;
+    }
+
+    public async Task<float[]> getBallRunRevenueFieldCoeficients(int pinsCount)
+    {
+        await Task.Delay(150);
+        float[] coeficients = new float[pinsCount];
+        for (int i = 0; i < pinsCount; i++)
+        {
+            coeficients[i] = CalcCoef(pinsCount, i);
+        }
+        return coeficients;
+    }
+
+    private float CalcCoef(int pinsCount, int pinNum)
+    {
+        pinNum += 1;
+        return (float)(System.Math.Round(Mathf.Pow(Mathf.Abs((pinNum - (pinsCount / 2f))/3f),2), 1) + 0.5f);
     }
 }

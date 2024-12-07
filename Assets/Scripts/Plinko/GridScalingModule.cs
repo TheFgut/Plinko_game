@@ -11,17 +11,26 @@ public class GridScalingModule
 
     private float parentDefaultWidth;
     private float currentFittedWidth;
+
+    private Vector3 defaultGridLocalScale;
+
+    private bool initialized;
     public void Init(RectTransform gridParent, RectTransform gridTransform)
     {
         this.gridParent = gridParent;
         this.gridTransform = gridTransform;
 
+        defaultGridLocalScale = gridTransform.transform.localScale;
+
         parentDefaultWidth = gridParent.rect.width;
         currentFittedWidth = parentDefaultWidth;
+
+        initialized = true;
     }
 
     public void Update()
     {
+        if (!initialized) return;
         if (gridParent.rect.width != currentFittedWidth)
         {
             ResizeGridToFitInParent();
@@ -33,7 +42,7 @@ public class GridScalingModule
         float currentWidth = gridParent.rect.width;
 
         float scaleFactor = currentWidth / parentDefaultWidth;
-        gridTransform.localScale = Vector3.one * scaleFactor;
+        gridTransform.localScale = defaultGridLocalScale * scaleFactor;
         currentFittedWidth = currentWidth;
     }
 }
