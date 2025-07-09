@@ -1,2 +1,2 @@
-# BigFishTZ
-Plinko game
+# Plinko game
+
